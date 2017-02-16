@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameOverManager : MonoBehaviour {
@@ -18,5 +19,15 @@ public class GameOverManager : MonoBehaviour {
         Debug.Log(input.text + ", " + ScoreManager.getScore().ToString() + " points");
         GetComponent<HiscoreReaderWriter>().uploadScore(ScoreManager.getScore(), input.text);
     }
-    
+
+    public void BackToMain()
+    {
+        StartCoroutine(LevelChange());
+    }
+
+    IEnumerator LevelChange()
+    {        
+        AsyncOperation asyncOp = SceneManager.LoadSceneAsync("MainMenu");
+        yield return asyncOp;
+    }
 }

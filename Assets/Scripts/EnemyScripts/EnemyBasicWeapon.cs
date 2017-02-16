@@ -31,20 +31,19 @@ public class EnemyBasicWeapon : MonoBehaviour, IWeapon
         Rect view = new Rect(minCoord.x, minCoord.y, maxCoord.x - minCoord.x, maxCoord.y - minCoord.y);
         if(view.Contains(transform.position))
         {
-            Quaternion direction;
+            Quaternion direction = Quaternion.identity;
             if(trackingFiring)
             {
-                Vector3 directionVector = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
-                float angle = Mathf.Atan2(directionVector.y, directionVector.x) * Mathf.Rad2Deg - 90.0f;
-                direction = Quaternion.AngleAxis(angle, new Vector3(0,0,1));                                
-            }
-            else
-            {
-                direction = Quaternion.identity;
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if(player != null)
+                {
+                    Vector3 directionVector = player.transform.position - transform.position;
+                    float angle = Mathf.Atan2(directionVector.y, directionVector.x) * Mathf.Rad2Deg - 90.0f;
+                    direction = Quaternion.AngleAxis(angle, new Vector3(0, 0, 1));
+                }                                               
             }
 
             GameObject.Instantiate(projectilePrefab, position, direction);
-        }
-                
+        }                
     }
 }
